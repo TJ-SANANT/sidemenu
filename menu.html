@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link rel="stylesheet" href="style.css">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sidemenu   = document.getElementById('sidemenu');
+  const trigger    = sidemenu.querySelector('.triggerMenu');
+  const subMenu    = sidemenu.querySelector('.subMenu');
+  const sitemaster = sidemenu.querySelector('.sitemaster');
+	const displayMode = document.querySelector('.displayMode');
+  const [displayHamburger, iconChangedisplayMode] = displayMode.querySelectorAll('svg');
+
+  const spansInOrder = [
+    trigger?.querySelector('span'),
+    ...Array.from(subMenu?.querySelectorAll('.toggleIcon span') || []),
+    sitemaster?.querySelector('span')
+  ].filter(Boolean);
+
+  spansInOrder.forEach((span, i) => {
+    span.style.setProperty('--d', `${(i * 0.1).toFixed(1)}s`);
+  });
+
+  // click triggerMenu and open / close
+  const [iconHamburger, iconBack] = trigger.querySelectorAll('svg') || [];
+  function syncIcons() {
+    const opened = sidemenu.classList.contains('open');
+    iconHamburger?.classList.toggle('on', !opened);
+    iconBack?.classList.toggle('on', opened);
+  }
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    sidemenu.classList.toggle('open');
+    syncIcons();
+  });
+
+  // Toggle dark or light mode icon
+  function changeDisplayModeIcon() {
+    const lightMode = sidemenu.classList.contains('light');
+    displayHamburger.classList.toggle('on', !lightMode);
+    iconChangedisplayMode.classList.toggle('on', lightMode);
+  }
+
+  // click displayMode and change dark or light
+  displayMode.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    if (sidemenu.classList.contains('light')) {
+      sidemenu.classList.remove('light');
+			changeDisplayModeIcon();
+    } else {
+      sidemenu.classList.add('light');
+			changeDisplayModeIcon();
+    }
+  });
+});
+</script>
+
+
+
+<style>
+@charset "UTF-8";
+
+/* general settings */
+body {background: #fff; font-size: 14px; font-family: sans-serif;}
+* {padding: 0; margin: 0;}
+:root {
+--key-color: #EA1DD2;/* key color */
+--colorWhite: #FDFDFD; /* white */
+--colorBlack: #1f1f1f; /*black*/
+--bgDarkMode: #1F1F1F; /*background color darkmode*/
+--bgLightMode: #f0f0f0; /*background color lightmode*/
+}
+
+
+
+/* anchor settings */
+#sidemenu a {position: relative; display: block;}
+#sidemenu a,#sidemenu a:link:active,#sidemenu a:visited,#sidemenu a:hover {color: var(--colorWhite); text-decoration: none;}
+#sidemenu a:hover {background: var(--key-color);}
+#sidemenu a span {position: absolute; left: -100px; top: 0; bottom: 0; display: flex; justify-content: center; align-items: center; width: 246px; height: 100%; margin: auto; opacity: 0;}
+
+/* sidemenu */
+#sidemenu {position: fixed; top: 10px; left: 10px; width: 60px; height: auto; padding: 8px; background: var(--bgDarkMode); border-radius: 15px; overflow: hidden; box-sizing: border-box; transition: all .5s;}
+
+/* triggerMenu */
+#sidemenu .triggerMenu {margin-bottom: 24px;}
+#sidemenu .triggerMenu svg {visibility:hidden; opacity: 0; transition: all .5s;}
+#sidemenu .triggerMenu svg.on {visibility: visible; opacity: 1; transition: all .5s;}
+
+/* toggleIcon */
+#sidemenu .toggleIcon {display: flex; justify-content: flex-start; align-items: center; width: 45px; height: 45px; padding: 0 12px; border-radius: 7px; overflow: hidden; box-sizing: border-box; transition: all .5s;}
+#sidemenu .toggleIcon svg {position: absolute; z-index: 2; top: 0; bottom: 0; left: 14px; display: block; width: 16px; height: auto; margin: auto; fill:var(--colorWhite);}
+
+/* line */
+#sidemenu .line {display: block; width: 60%; height: 1px; margin: 0 auto; background: rgba(255,255,255,.3);}
+
+/* subMenu */
+#sidemenu .subMenu a {margin-top: 16px;}
+
+/* sitemaster */
+#sidemenu .sitemaster {position: relative; display: block; width: 45px; height: 45px; padding: 0; margin: 176px 0 24px; overflow: hidden;}
+#sidemenu .sitemaster:hover {background: 0;}
+#sidemenu .sitemaster img {position: relative; z-index: 3; display: block; width: 45px; height: 45px; object-fit: cover; border-radius: 7px; overflow: hidden;}
+#sidemenu .sitemaster .arrow {position: absolute; z-index: 1; right: 0; top: 0; bottom: 0; margin: auto; width: 45px; height: 100%; display: flex; justify-content: center; align-items: center;}
+#sidemenu .sitemaster .arrow svg {fill:var(--colorWhite);}
+#sidemenu .sitemaster:hover .arrow {animation: arrowMove 1s infinite;}
+
+/* displayMode */
+#sidemenu .displayMode {display: flex; justify-content: center; align-items: center;width: 100%; height: 45px; border-radius: 7px; overflow: hidden; box-sizing: border-box; transition: all .5s;}
+#sidemenu .displayMode svg {position: relative; top: 0; bottom: 0; left: 0;right: 0; z-index: 1; margin: auto; fill:var(--colorWhite); display: none; visibility:hidden; opacity: 0; transition: all .5s;}
+#sidemenu .displayMode svg.on {display: block; visibility: visible; opacity: 1; z-index: 2; transition: all .5s;}
+
+/* menu open */
+#sidemenu.open {width: 360px; transition: all .5s;}
+#sidemenu.open a span { animation: slideIn .5s forwards; animation-delay: var(--d, 0s);}
+#sidemenu.open a {width: 100%;}
+#sidemenu.open .triggerMenu span {transition-delay: 0s;}
+#sidemenu.open .home span {animation-delay: .1s;}
+#sidemenu.open .sitemaster span {animation-delay: .6s;}
+
+/* light mode settings */
+#sidemenu.light {background: var(--bgLightMode); transition: all .5s;}
+#sidemenu.light .line {background: rgba(0,0,0,.3);}
+#sidemenu.light .toggleIcon svg {fill:var(--colorBlack);}
+#sidemenu.light .displayMode svg {fill:var(--colorBlack);}
+#sidemenu.light a span {color: var(--colorBlack);}
+#sidemenu.light a:active,#sidemenu.light a:link,#sidemenu.light a:visited, {color: var(--colorWhite);}
+#sidemenu.light a:hover {color: var(--colorWhite);}
+#sidemenu.light a:hover svg {fill: var(--colorWhite);}
+#sidemenu.light a:hover span {color: var(--colorWhite);}
+#sidemenu.light .sitemaster:hover span {color:var(--colorBlack);}
+#sidemenu.light .sitemaster .arrow svg {fill:var(--colorBlack);}
+
+/* animations */
+@keyframes slideIn {from{left:-100px;opacity:0;}to{left:50px;opacity:1;}}
+@keyframes arrowMove {0%{right:0px;}50%{right:-5px;}100%{right:0px;}}
+
+</style>
+</head>
+<body>
+<div id="sidemenu">
+	<a class="triggerMenu toggleIcon" href="#">
+		<svg class="on" xmlns="http://www.w3.org/2000/svg" width="20" height="16.97" viewBox="0 0 20 16.97"><g transform="translate(0 0)"><path d="M18.091,1H-.091A.958.958,0,0,1-1,0,.958.958,0,0,1-.091-1H18.091A.958.958,0,0,1,19,0,.958.958,0,0,1,18.091,1Z" transform="translate(1 1)"/><path d="M18.091,1H-.091A.958.958,0,0,1-1,0,.958.958,0,0,1-.091-1H18.091A.958.958,0,0,1,19,0,.958.958,0,0,1,18.091,1Z" transform="translate(1 8.485)"/><path d="M18.091,1H-.091A.958.958,0,0,1-1,0,.958.958,0,0,1-.091-1H18.091A.958.958,0,0,1,19,0,.958.958,0,0,1,18.091,1Z" transform="translate(1 15.97)"/></g></svg>
+		<svg class="" xmlns="http://www.w3.org/2000/svg" width="20.001" height="13.965" viewBox="0 0 20.001 13.965"><g transform="translate(-1.999 -4.996)"><path d="M21,11H11.41L15.7,6.71A1,1,0,0,0,14.29,5.3l-6,6a1,1,0,0,0,0,1.42l6,6a1,1,0,0,0,1.41-1.41L11.41,13H21a1,1,0,0,0,0-2Z"/><path d="M4.41,12l5.3-5.29A1,1,0,1,0,8.29,5.29l-6,6a1,1,0,0,0,0,1.41l6,6A1,1,0,0,0,9.7,17.29Z"/></svg>
+		<span>SITE MENU</span>
+	</a>
+	<div class="line">&nbsp;</div>
+	<div class="subMenu">
+		<a href="#" class="home toggleIcon">
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19.635" viewBox="0 0 20 19.635"><path d="M10.854,5.056a1.128,1.128,0,0,0-1.606,0l-8.872,9a1.128,1.128,0,0,0,.8,1.92H3.151v7.252a1.129,1.129,0,0,0,1.128,1.128H7.691a.469.469,0,0,0,.469-.469V18.179a.191.191,0,0,1,.19-.19h3.4a.19.19,0,0,1,.19.19v5.707a.469.469,0,0,0,.469.469h3.413a1.129,1.129,0,0,0,1.128-1.128V15.975h1.972a1.128,1.128,0,0,0,.8-1.92Z" transform="translate(-0.051 -4.72)"/></svg>
+			<span>HOME</span>
+		</a>
+		<a href="#" class="toggleIcon">
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22"><path d="M658.508,949.067a7,7,0,0,0,6.984,0,.5.5,0,0,1,.25-.067h1.207a4.5,4.5,0,0,1,4.475,4.022l.568,5.319A1.5,1.5,0,0,1,670.5,960h-17a1.5,1.5,0,0,1-1.492-1.66l.568-5.319A4.5,4.5,0,0,1,657.051,949h1.207a.5.5,0,0,1,.25.067ZM662,938a5,5,0,1,1-5,5A5,5,0,0,1,662,938Z" transform="translate(-652 -938)" fill-rule="evenodd"/></svg>
+			<span>MEMBER</span>
+		</a>
+		<a href="#" class="toggleIcon">
+			<svg xmlns="http://www.w3.org/2000/svg" width="19.999" height="20" viewBox="0 0 19.999 20"><g transform="translate(-2 -2)"><path d="M7.24,2H5.34A2.979,2.979,0,0,0,2,5.33v1.9a2.976,2.976,0,0,0,3.33,3.33h1.9a2.976,2.976,0,0,0,3.33-3.33V5.33A2.965,2.965,0,0,0,7.24,2Z"/><path d="M18.67,2h-1.9a2.976,2.976,0,0,0-3.33,3.33v1.9a2.976,2.976,0,0,0,3.33,3.33h1.9A2.976,2.976,0,0,0,22,7.23V5.33A2.976,2.976,0,0,0,18.67,2Z"/><path d="M18.67,13.43h-1.9a2.976,2.976,0,0,0-3.33,3.33v1.9a2.976,2.976,0,0,0,3.33,3.33h1.9A2.976,2.976,0,0,0,22,18.66v-1.9a2.976,2.976,0,0,0-3.33-3.33Z"/><path d="M7.24,13.43H5.34A2.979,2.979,0,0,0,2,16.76v1.9A2.979,2.979,0,0,0,5.33,22h1.9a2.976,2.976,0,0,0,3.33-3.33v-1.9a2.968,2.968,0,0,0-3.32-3.34Z"/></g></svg>
+			<span>MENU</span>
+		</a>
+		<a href="#" class="toggleIcon">
+			<svg xmlns="http://www.w3.org/2000/svg" width="15.358" height="20" viewBox="0 0 15.358 20"><g transform="translate(-56.8)"><path d="M58.525,6.007V8.1h-.139A1.587,1.587,0,0,0,56.8,9.681v8.733A1.587,1.587,0,0,0,58.386,20H70.572a1.587,1.587,0,0,0,1.586-1.586V9.677a1.587,1.587,0,0,0-1.586-1.586h-.041V6a6,6,0,1,0-12.007,0Zm6.894,8.427a.339.339,0,0,0-.155.319c0,.642,0,1.279,0,1.921h0a.683.683,0,0,1-.36.646.748.748,0,0,1-1.12-.646v0c0-.642,0-1.283,0-1.925a.327.327,0,0,0-.143-.3,1.463,1.463,0,0,1-.482-1.8,1.493,1.493,0,0,1,2.857.588A1.418,1.418,0,0,1,65.419,14.434ZM61.152,6.007a3.376,3.376,0,1,1,6.751,0V8.1H61.152Z" transform="translate(0)"/></g></svg>
+			<span>LOGIN</span>
+		</a>
+		<a href="#" class="toggleIcon">
+			<svg xmlns="http://www.w3.org/2000/svg" width="15.358" height="20" viewBox="0 0 15.358 20"><g transform="translate(-56.8)"><path d="M58.525,6.007V8.1h-.139A1.587,1.587,0,0,0,56.8,9.681v8.733A1.587,1.587,0,0,0,58.386,20H70.572a1.587,1.587,0,0,0,1.586-1.586V9.677a1.587,1.587,0,0,0-1.586-1.586h-.041V6a6,6,0,1,0-12.007,0Zm6.894,8.427a.339.339,0,0,0-.155.319c0,.642,0,1.279,0,1.921h0a.683.683,0,0,1-.36.646.748.748,0,0,1-1.12-.646v0c0-.642,0-1.283,0-1.925a.327.327,0,0,0-.143-.3,1.463,1.463,0,0,1-.482-1.8,1.493,1.493,0,0,1,2.857.588A1.418,1.418,0,0,1,65.419,14.434ZM61.152,6.007a3.376,3.376,0,1,1,6.751,0V8.1H61.152Z" transform="translate(0)"/></g></svg>
+			<span>LOGIN</span>
+		</a>
+	</div>
+	<a href="#" class="sitemaster">
+		<img src="sitemaster.png" alt="">
+		<span>BOOK A FREE CONSULTATION</span>
+		<div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" width="8.005" height="13.945" viewBox="0 0 8.005 13.945"><path d="M4.41,12l5.3-5.29A1,1,0,1,0,8.29,5.29l-6,6a1,1,0,0,0,0,1.41l6,6A1,1,0,0,0,9.7,17.29Z" transform="translate(10.004 18.94) rotate(180)"/></svg></div>
+	</a>
+	<a href="#" class="displayMode">
+		<svg class="on" xmlns="http://www.w3.org/2000/svg" width="20.048" height="20.048" viewBox="0 0 20.048 20.048"><g transform="translate(-1364 -548)"><g transform="translate(1364 548)"><path d="M19.927,24.854a4.927,4.927,0,1,1,4.927-4.927A4.927,4.927,0,0,1,19.927,24.854Z" transform="translate(-9.903 -9.903)"/><path d="M27.849,3.738A.849.849,0,0,1,27,2.888V.849a.849.849,0,1,1,1.7,0V2.888A.849.849,0,0,1,27.849,3.738Z" transform="translate(-17.826)"/><path d="M27.849,51.738A.849.849,0,0,1,27,50.888V48.849a.849.849,0,1,1,1.7,0v2.039A.849.849,0,0,1,27.849,51.738Z" transform="translate(-17.826 -31.69)"/><path d="M50.888,28.7H48.849a.849.849,0,1,1,0-1.7h2.039a.849.849,0,1,1,0,1.7Z" transform="translate(-31.69 -17.826)"/><path d="M2.888,28.7H.849a.849.849,0,1,1,0-1.7H2.888a.849.849,0,1,1,0,1.7Z" transform="translate(0 -17.826)"/><path d="M42.7,11.967a.849.849,0,0,1-.6-1.451l.962-.962a.857.857,0,0,1,1.22,1.2l-.962.962a.846.846,0,0,1-.618.248Z" transform="translate(-27.627 -6.139)"/><path d="M10.166,44.508a.849.849,0,0,1-.6-1.451l.962-.962a.851.851,0,0,1,1.2,1.2l-.962.979a.86.86,0,0,1-.6.231Z" transform="translate(-6.15 -27.628)"/><path d="M11.129,11.978a.846.846,0,0,1-.6-.248l-.962-.962a.851.851,0,0,1,1.2-1.2l.962.962a.856.856,0,0,1,0,1.2A.846.846,0,0,1,11.129,11.978Z" transform="translate(-6.151 -6.151)"/><path d="M43.659,44.541a.86.86,0,0,1-.6-.231l-.962-.962a.851.851,0,0,1,1.2-1.2l.979.945a.849.849,0,0,1-.6,1.451Z" transform="translate(-27.628 -27.661)"/></g></g></svg>
+		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19.993" viewBox="0 0 20 19.993"><path d="M17.3,17.191a10.077,10.077,0,0,0,2.69-4.806.514.514,0,0,0-.866-.477l-.013.014A7.68,7.68,0,0,1,8.154,1.152l.109-.11A.512.512,0,0,0,7.783.18,10.127,10.127,0,1,0,17.3,17.191Z" transform="translate(-0.001 -0.165)"/></svg>
+	</a>
+</div>
+</body>
+</html>
