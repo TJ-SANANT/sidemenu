@@ -5,14 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Document</title>
-<link rel="stylesheet" href="style.css">
-
-
-
 
 <style>
 @charset "UTF-8";
-
 /* general settings */
 body {background: #fff; font-size: 14px; font-family: sans-serif;}
 * {padding: 0; margin: 0;}
@@ -23,33 +18,24 @@ body {background: #fff; font-size: 14px; font-family: sans-serif;}
 --bgDarkMode: #1F1F1F; /*background color darkmode*/
 --bgLightMode: #f0f0f0; /*background color lightmode*/
 }
-
-
-
 /* anchor settings */
 #sidemenu a {position: relative; display: block;}
 #sidemenu a,#sidemenu a:link:active,#sidemenu a:visited,#sidemenu a:hover {color: var(--colorWhite); text-decoration: none;}
 #sidemenu a:hover {background: var(--key-color);}
 #sidemenu a span {position: absolute; left: -100px; top: 0; bottom: 0; display: flex; justify-content: center; align-items: center; width: 256px; height: 100%; margin: auto; opacity: 0;}
-
 /* sidemenu */
 #sidemenu {position: fixed; top: 10px; left: 10px; width: 60px; height: auto; padding: 8px; background: var(--bgDarkMode); border-radius: 15px; overflow: hidden; box-sizing: border-box; transition: all .5s;}
-
 /* triggerMenu */
 #sidemenu .triggerMenu {margin-bottom: 24px;}
 #sidemenu .triggerMenu svg {visibility:hidden; opacity: 0; transition: all .5s;}
 #sidemenu .triggerMenu svg.on {visibility: visible; opacity: 1; transition: all .5s;}
-
 /* toggleIcon */
 #sidemenu .toggleIcon {display: flex; justify-content: flex-start; align-items: center; width: 44px; height: 44px; padding: 0 12px; border-radius: 7px; overflow: hidden; box-sizing: border-box; transition: all .5s;}
 #sidemenu .toggleIcon svg {position: absolute; z-index: 2; top: 0; bottom: 0; left: 14px; display: block; width: 16px; height: auto; margin: auto; fill:var(--colorWhite);}
-
 /* line */
 #sidemenu .line {display: block; width: 60%; height: 1px; margin: 0 auto; background: rgba(255,255,255,.3);}
-
 /* subMenu */
 #sidemenu .subMenu a {margin-top: 16px;}
-
 /* sitemaster */
 #sidemenu .sitemaster {position: relative; display: block; width: 44px; height: 44px; padding: 0; margin: 176px 0 24px; overflow: hidden;}
 #sidemenu .sitemaster:hover {background: 0;}
@@ -57,12 +43,10 @@ body {background: #fff; font-size: 14px; font-family: sans-serif;}
 #sidemenu .sitemaster .arrow {position: absolute; z-index: 1; right: 8px; top: 0; bottom: 0; margin: auto; width: 44px; height: 100%; display: flex; justify-content: center; align-items: center;}
 #sidemenu .sitemaster .arrow svg {fill:var(--colorWhite);}
 #sidemenu .sitemaster:hover .arrow {animation: arrowMove 1s infinite;}
-
 /* displayMode */
 #sidemenu .displayMode {display: flex; justify-content: center; align-items: center;width: 100%; height: 44px; border-radius: 7px; overflow: hidden; box-sizing: border-box; transition: all .5s;}
 #sidemenu .displayMode svg {position: relative; top: 0; bottom: 0; left: 0;right: 0; z-index: 1; margin: auto; fill:var(--colorWhite); display: none; visibility:hidden; opacity: 0; transition: all .5s;}
 #sidemenu .displayMode svg.on {display: block; visibility: visible; opacity: 1; z-index: 2; transition: all .5s;}
-
 /* menu open */
 #sidemenu.open {width: 360px; transition: all .5s;}
 #sidemenu.open a span { animation: slideIn .5s forwards; animation-delay: var(--d, 0s);}
@@ -70,7 +54,6 @@ body {background: #fff; font-size: 14px; font-family: sans-serif;}
 #sidemenu.open .triggerMenu span {transition-delay: 0s;}
 #sidemenu.open .home span {animation-delay: .1s;}
 #sidemenu.open .sitemaster span {animation-delay: .6s;}
-
 /* light mode settings */
 #sidemenu.light {background: var(--bgLightMode); transition: all .5s;}
 #sidemenu.light .line {background: rgba(0,0,0,.3);}
@@ -83,13 +66,10 @@ body {background: #fff; font-size: 14px; font-family: sans-serif;}
 #sidemenu.light a:hover span {color: var(--colorWhite);}
 #sidemenu.light .sitemaster:hover span {color:var(--colorBlack);}
 #sidemenu.light .sitemaster .arrow svg {fill:var(--colorBlack);}
-
 /* animations */
 @keyframes slideIn {from{left:-100px;opacity:0;}to{left:44px;opacity:1;}}
 @keyframes arrowMove {0%{right:0px;}50%{right:-5px;}100%{right:0px;}}
-
 </style>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -144,8 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-
-
 </head>
 <body>
 <div id="sidemenu">
